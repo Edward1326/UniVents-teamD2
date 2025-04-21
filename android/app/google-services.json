@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1078014833550-qmt9i5kv902kb4jf3cttbgu14k2f48nc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.univents",
+            "certificate_hash": "41a714c7c6901d9322b3554045511d83cdbc8390"
+          }
+        },
+        {
           "client_id": "1078014833550-vi11u9u41bvm5gpmr4s47du7snk7eqbg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -39,10 +47,46 @@
               "client_type": 3
             },
             {
-              "client_id": "1078014833550-t7jtgp808sp67neeecn7s98e3rmdjk0o.apps.googleusercontent.com",
+              "client_id": "1078014833550-97obn6vunvmvq5c0pdcc7biq08rn4cbn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.univents"
+                "bundle_id": "com.example.univentsWeb"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1078014833550:android:e05df7ab264e4f69b6aadf",
+        "android_client_info": {
+          "package_name": "com.example.univents_web"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1078014833550-n9mn3gm2a7r75ksrd1ansah4k8j9bdt0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtxYce_4Mnq_7wjMGWdxlWsI7KchSlJVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1078014833550-n9mn3gm2a7r75ksrd1ansah4k8j9bdt0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1078014833550-97obn6vunvmvq5c0pdcc7biq08rn4cbn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.univentsWeb"
               }
             }
           ]
@@ -75,10 +119,10 @@
               "client_type": 3
             },
             {
-              "client_id": "1078014833550-t7jtgp808sp67neeecn7s98e3rmdjk0o.apps.googleusercontent.com",
+              "client_id": "1078014833550-97obn6vunvmvq5c0pdcc7biq08rn4cbn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.univents"
+                "bundle_id": "com.example.univentsWeb"
               }
             }
           ]

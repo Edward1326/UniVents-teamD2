@@ -32,7 +32,6 @@ dependencies:
 
   cupertino_icons: ^1.0.8
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -56,10 +55,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - lib/app/images/university_seal.png
-    - lib/app/images/facebook_icon.png
-    - lib/app/images/google_icon.png
-    - lib/app/images/apple_icon.png
+    - lib/images/university_seal.png
+    - lib/images/facebook_icon.png
+    - lib/images/google_icon.png
+    - lib/images/apple_icon.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -76,14 +75,14 @@ flutter:
   fonts:
     - family: Inter
       fonts:
-        - asset: lib/app/fonts/Inter_24pt-Regular.ttf
-        - asset: lib/app/fonts/Inter_24pt-Medium.ttf
+        - asset: lib/fonts/Inter_24pt-Regular.ttf
+        - asset: lib/fonts/Inter_24pt-Medium.ttf
           weight: 500
-        - asset: lib/app/fonts/Inter_24pt-Bold.ttf
+        - asset: lib/fonts/Inter_24pt-Bold.ttf
           weight: 700
-        - asset: lib/app/fonts/Inter_24pt-SemiBold.ttf
+        - asset: lib/fonts/Inter_24pt-SemiBold.ttf
           weight: 600
-        - asset: lib/app/fonts/Inter_24pt-ExtraBold.ttf
+        - asset: lib/fonts/Inter_24pt-ExtraBold.ttf
           weight: 900
   #         style: italic
   #   - family: Trajan Pro
