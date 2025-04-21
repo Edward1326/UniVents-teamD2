@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:univents/app/pages/login/login_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+//com.example.univents
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+  options: DefaultFirebaseOptions.currentPlatform,
+);
 
-void main() {
   runApp(const MyApp());
 }
 
