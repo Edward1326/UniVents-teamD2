@@ -2,18 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthServices {
-  signInWithGoogle() async {
-    final googleSignIn = GoogleSignIn();
+  final googleSignIn = GoogleSignIn();
 
-    // 🔁 This clears the previously cached account
+  Future<User?> signInWithGoogle() async {
     await googleSignIn.signOut();
 
-    // 📲 This will now show the account picker again
     final GoogleSignInAccount? gUser = await googleSignIn.signIn();
-
-    if (gUser == null) {
-      throw Exception("Google Sign-In was cancelled");
-    }
+    if (gUser == null) throw Exception("Google Sign-In was cancelled");
 
     final GoogleSignInAuthentication gAuth = await gUser.authentication;
 
@@ -22,6 +17,18 @@ class AuthServices {
       idToken: gAuth.idToken,
     );
 
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    final userCredential = await FirebaseAuth.instance.signInWithCredential(
+      credential,
+    );
+
+    final email = userCredential.user?.email ?? '';
+
+    if (!email.endsWith('@addu.edu.ph')) {
+      await FirebaseAuth.instance.signOut();
+      await googleSignIn.signOut();
+      throw Exception("Only @addu.edu.ph emails are allowed.");
+    }
+
+    return userCredential.user;
   }
 }

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:univents/components/login_textfield.dart';
-import 'package:univents/components/login_button.dart';
-import 'package:univents/components/login_tiles.dart';
+import 'package:univents/components/login/login_textfield.dart';
+import 'package:univents/components/login/login_button.dart';
+import 'package:univents/components/login/login_tiles.dart';
 import 'package:univents/pages/home_page.dart';
 import 'package:univents/services/auth_services.dart';
 
@@ -30,36 +29,6 @@ class LoginPage extends StatelessWidget {
         builder:
             (context) => AlertDialog(
               title: const Text('Login Error'),
-              content: Text(e.toString()),
-            ),
-      );
-    }
-  }
-
-  // Google Sign-In
-  Future<void> signInWithGoogle(BuildContext context) async {
-    try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser!.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-
-      await FirebaseAuth.instance.signInWithCredential(credential);
-
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomePage()),
-      );
-    } catch (e) {
-      showDialog(
-        context: context,
-        builder:
-            (context) => AlertDialog(
-              title: const Text('Google Login Error'),
               content: Text(e.toString()),
             ),
       );
