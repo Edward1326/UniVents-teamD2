@@ -6,7 +6,7 @@ class EventView extends StatelessWidget {
   final String eventLocation;
   final String organizer;
   final String slotsRemaining;
-  
+
   const EventView({
     super.key,
     required this.eventTitle,
@@ -58,15 +58,15 @@ class EventView extends StatelessWidget {
                       border: Border.all(color: Colors.white, width: 2),
                     ),
                     child: IconButton(
-                      onPressed: () => Navigator.pop(context), 
+                      onPressed: () => Navigator.pop(context),
                       icon: const Icon(Icons.arrow_back, color: Colors.black),
-                      ),
+                    ),
                   ),
                 ),
               ),
             ],
           ),
-          
+
           // Event Details Card (positioned halfway over the image)
           Transform.translate(
             offset: const Offset(0, -60),
@@ -95,7 +95,7 @@ class EventView extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  
+
                   // Event Details with Icons
                   _buildDetailRow(Icons.location_on, eventLocation),
                   const SizedBox(height: 10),
@@ -108,7 +108,7 @@ class EventView extends StatelessWidget {
               ),
             ),
           ),
-          
+
           // Event Overview Section
           Expanded(
             child: SingleChildScrollView(
@@ -162,7 +162,7 @@ class EventView extends StatelessWidget {
               ),
             ),
           ),
-          
+
           // Join Event Button
           Padding(
             padding: const EdgeInsets.all(20),
@@ -177,10 +177,7 @@ class EventView extends StatelessWidget {
               ),
               child: const Text(
                 'Join Event',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                ),
+                style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
           ),
@@ -193,18 +190,9 @@ class EventView extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
-          icon,
-          color: const Color(0xFF163C9F),
-          size: 20,
-        ),
+        Icon(icon, color: const Color(0xFF163C9F), size: 20),
         const SizedBox(width: 10),
-        Expanded(
-          child: Text(
-            text,
-            style: const TextStyle(fontSize: 14),
-          ),
-        ),
+        Expanded(child: Text(text, style: const TextStyle(fontSize: 14))),
       ],
     );
   }
