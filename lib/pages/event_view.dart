@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:univents/pages/saved_view.dart';
 
 class EventView extends StatefulWidget {
   final String eventId;
@@ -17,6 +19,7 @@ class _EventViewState extends State<EventView> {
   String? organizerName;
   int slotsRemaining = 0;
   bool isLoading = true;
+  bool hasJoined = false;
 
   @override
   void initState() {
@@ -26,23 +29,15 @@ class _EventViewState extends State<EventView> {
 
   Future<void> fetchEventDetails() async {
     try {
-      final eventDoc =
-          await FirebaseFirestore.instance
-              .collection('organizations')
-              .doc(widget.orgId)
-              .collection('events')
-              .doc(widget.eventId)
-              .get();
+      final user = FirebaseAuth.instance.currentUser;
+      final eventRef = FirebaseFirestore.instance
+          .collection('organizations')
+          .doc(widget.orgId)
+          .collection('events')
+          .doc(widget.eventId);
 
-      final attendeesSnapshot =
-          await FirebaseFirestore.instance
-              .collection('organizations')
-              .doc(widget.orgId)
-              .collection('events')
-              .doc(widget.eventId)
-              .collection('attendees')
-              .get();
-
+      final eventDoc = await eventRef.get();
+      final attendeesSnapshot = await eventRef.collection('attendees').get();
       final orgDoc =
           await FirebaseFirestore.instance
               .collection('organizations')
@@ -54,6 +49,13 @@ class _EventViewState extends State<EventView> {
         final totalSlots = event['total_slots'] ?? 0;
         final attendeesCount = attendeesSnapshot.size;
 
+        bool alreadyJoined = false;
+        if (user != null) {
+          final userDoc =
+              await eventRef.collection('attendees').doc(user.uid).get();
+          alreadyJoined = userDoc.exists;
+        }
+
         setState(() {
           eventData = event;
           slotsRemaining = totalSlots - attendeesCount;
@@ -61,6 +63,7 @@ class _EventViewState extends State<EventView> {
               orgDoc.exists
                   ? (orgDoc.data()?['name'] ?? 'Organizer')
                   : 'Organizer';
+          hasJoined = alreadyJoined;
           isLoading = false;
         });
       } else {
@@ -74,6 +77,61 @@ class _EventViewState extends State<EventView> {
         isLoading = false;
       });
       print('Error fetching event details: $e');
+    }
+  }
+
+  Future<void> joinEvent() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      print("User not logged in.");
+      return;
+    }
+
+    final attendeeRef = FirebaseFirestore.instance
+        .collection('organizations')
+        .doc(widget.orgId)
+        .collection('events')
+        .doc(widget.eventId)
+        .collection('attendees')
+        .doc(user.uid);
+
+    final attendeeDoc = await attendeeRef.get();
+
+    if (!attendeeDoc.exists) {
+      await attendeeRef.set({
+        'accountid': '/accounts/${user.uid}',
+        'datetimestamp': FieldValue.serverTimestamp(),
+        'status': 'pending',
+      });
+
+      setState(() {
+        hasJoined = true;
+        slotsRemaining -= 1;
+      });
+
+      print("Joined event!");
+
+      // ✅ Navigate to SavedView
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder:
+              (context) => SavedView(
+                eventData: {
+                  'title': eventData!['title'] ?? 'Untitled Event',
+                  'banner': eventData!['banner'] ?? 'no banner',
+                  'speaker': eventData!['speaker'] ?? 'Unknown Speaker',
+                  'dateTime': formatEventDateRange(
+                    eventData!['datetimestart'],
+                    eventData!['datetimeend'],
+                  ),
+                  'venue': eventData!['location'] ?? 'Unknown Venue',
+                },
+              ),
+        ),
+      );
+    } else {
+      print("Already joined.");
     }
   }
 
@@ -212,17 +270,18 @@ class _EventViewState extends State<EventView> {
           Padding(
             padding: const EdgeInsets.all(20),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: hasJoined ? null : joinEvent,
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF163C9F),
+                backgroundColor:
+                    hasJoined ? Colors.grey : const Color(0xFF163C9F),
                 minimumSize: const Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child: const Text(
-                'Join Event',
-                style: TextStyle(fontSize: 16, color: Colors.white),
+              child: Text(
+                hasJoined ? 'Already Joined' : 'Join Event',
+                style: const TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
           ),
